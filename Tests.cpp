@@ -34,4 +34,5 @@ void testRepo() {
 	repo.addElem(c);
 	list<Car> l = repo.getAll();
 	assert(repo.getSize()==1);
+	assert(l.front() == c);
 }
