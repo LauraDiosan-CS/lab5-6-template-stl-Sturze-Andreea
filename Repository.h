@@ -6,7 +6,6 @@ using namespace std;
 
 class Repository {
 protected:
-//private:
 	list<Car> cars;
 public:
 	Repository();

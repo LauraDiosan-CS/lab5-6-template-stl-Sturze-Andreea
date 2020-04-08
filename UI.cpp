@@ -21,6 +21,7 @@ void UI::printMenu() {
 	cout << "\t 2.Print Cars" << endl;
 	cout << "\t 3.Delete Car" << endl;
 	cout << "\t 4.Update Car" << endl;
+	cout << "\t 5.Enter the parking" << endl;
 	cout << "\t 0.Exit" << endl;
 	cout << "Choose option: ";
 }
@@ -112,8 +113,25 @@ void UI::updateCar() {
 		cout << "The car does not exist" << endl;
 }
 
+void UI::enterParking() {
+	Car c;
+	cin >> c;
+	if (service.findCar(c) == true) {
+		int rez = service.enterParking(c);
+		if (rez == -1)
+			cout << "The car is already in the parking!" << endl;
+		else if (rez == -2)
+			cout << "The parking is full!" << endl;
+		else if (rez == 0)
+			cout << "The car has entered the parking!" << endl;
+	}
+}
 
 void UI::run() {
+	cout << "The number of parking spaces: ";
+	int nr;
+	cin >> nr;
+	service.setParkingNr(nr);
 	int option;
 	bool works = true;
 	while (works != false)
@@ -136,6 +154,10 @@ void UI::run() {
 		}
 		case 4: {
 			updateCar();
+			break;
+		}
+		case 5: {
+			enterParking();
 			break;
 		}
 		case 0: {

@@ -5,11 +5,11 @@
 
 class Service {
 private:
-	Repository repo;
-	//RepoFile repo;
+	int parking;
+	RepoFile repo;
 public:
 	Service();
-	Service(const Repository&);
+	//Service(const Repository&);
 	Service(const RepoFile&);
 	~Service();
 	int addToRepo(const char*, const char*, const char*);
@@ -20,4 +20,6 @@ public:
 	Car getItemFromPos(int);
 	list<Car> getFromRepo();
 	int getRepoSize();
+	void setParkingNr(int);
+	int enterParking(Car);
 };
