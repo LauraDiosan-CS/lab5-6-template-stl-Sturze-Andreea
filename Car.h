@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+#include <string>
+using namespace std;
 
 class Car {
 private:
@@ -17,6 +20,8 @@ public:
 	void setStatus(const char*);
 	Car& operator=(const Car&);
 	bool operator==(const Car&);
+	friend ostream& operator<<(ostream& os, Car);
+	friend istream& operator>>(istream&, Car&);
 	~Car();
 
 };

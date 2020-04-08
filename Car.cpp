@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Car.h"
 #include <string.h>
+#include <iostream>
+#include <sstream>
+using namespace std;
 
 
 Car::Car() {
@@ -26,19 +29,25 @@ Car::Car(const Car& c) {
 	strcpy_s(licensePlate, strlen(c.licensePlate) + 1, c.licensePlate);
 
 	status = new char[strlen(c.status) + 1];
-	strcpy_s(status, strlen(c.status) + 1, c.status);
+	strcpy_s(status, strlen(c.status)+ 1, c.status);
 }
 
 Car::~Car() {
 	if (name)
+	{
 		delete[] name;
-	name = NULL;
+		name = NULL;
+	}
 	if (licensePlate)
+	{
 		delete[] licensePlate;
-	licensePlate = NULL;
+		licensePlate = NULL;
+	}
 	if (status)
+	{
 		delete[] status;
-	status = NULL;
+		status = NULL;
+	}
 }
 
 char* Car::getName() {
@@ -63,40 +72,54 @@ void Car::setName(const char* n) {
 void Car::setLicensePlate(const char* l) {
 	if (licensePlate)
 		delete[] licensePlate;
-	name = new char[strlen(l) + 1];
+	licensePlate = new char[strlen(l) + 1];
 	strcpy_s(licensePlate, strlen(l) + 1, l);
 }
 
 void Car::setStatus(const char* s) {
 	if (status)
 		delete[] status;
-	name = new char[strlen(s) + 1];
+	status = new char[strlen(s) + 1];
 	strcpy_s(status, strlen(s) + 1, s);
 }
 
 Car& Car::operator=(const Car& c) {
 	if (this == &c)
-		return *this; 
-	if (c.name) {
-		if (this->name)delete[]this->name;
-		this->name = new char[strlen(c.name) + 1];
-		strcpy_s(this->name, strlen(c.name) + 1, c.name);
-	}
-	if (c.status) {
-		if (this->status)
-			delete[]this->status;
-		this->status = new char[strlen(c.status) + 1];
-		strcpy_s(this->status, strlen(c.status) + 1, c.status);
-	}
-	if (c.licensePlate) {
-		if (this->licensePlate)
-			delete[]this->licensePlate;
-		this->licensePlate = new char[strlen(c.licensePlate) + 1];
-		strcpy_s(this->licensePlate, strlen(c.licensePlate) + 1, c.licensePlate);
-	}
+		return *this;
+	if (c.name)
+		setName(c.name);
+	if (c.licensePlate)
+		setLicensePlate(c.licensePlate);
+	if (c.status)
+		setStatus(c.status);
 	return *this;
 }
 
 bool Car::operator==(const Car& c) {
 	return (strcmp(name, c.name) == 0 and strcmp(licensePlate, c.licensePlate) == 0 and strcmp(status, c.status) == 0);
+}
+
+ostream& operator<<(ostream& os, Car c) {
+	os << c.getName() << " " << c.getLicensePlate()<<" "<<c.getStatus() << endl;
+	return os;
+}
+
+istream & operator>>(istream &is, Car &c)
+{
+	cout << "Name: ";
+	char* name = new char[20];
+	is >> name;
+	cout << "License plate: ";
+	char* licensePlate = new char[20];
+	is >> licensePlate;
+	cout << "Status: ";
+	char* status = new char[20];
+	is >> status;
+	c.setName(name);
+	c.setLicensePlate(licensePlate);
+	c.setStatus(status);
+	delete[] name;
+	delete[] licensePlate;
+	delete[] status;
+	return is;
 }

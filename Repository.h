@@ -5,11 +5,17 @@
 using namespace std;
 
 class Repository {
-private:
+protected:
+//private:
 	list<Car> cars;
 public:
 	Repository();
-	void addElem(Car);
+	int addElem(Car);
+	int delElem(Car);
+	void updateElem(Car, const char*, const char*, const char*);
+	int findElem(Car);
+	bool findCar(Car);
+	Car getItemFromPos(int);
 	list<Car> getAll();
 	int getSize();
 	~Repository();
