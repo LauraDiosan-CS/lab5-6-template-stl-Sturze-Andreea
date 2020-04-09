@@ -21,7 +21,9 @@ void UI::printMenu() {
 	cout << "\t 2.Print Cars" << endl;
 	cout << "\t 3.Delete Car" << endl;
 	cout << "\t 4.Update Car" << endl;
-	cout << "\t 5.Enter the parking" << endl;
+	cout << "\t 5.Enter parking" << endl;
+	cout << "\t 6.Exit parking" << endl;
+	cout << "\t 7.How many cars tried to enter but didn't have space?" << endl;
 	cout << "\t 0.Exit" << endl;
 	cout << "Choose option: ";
 }
@@ -39,9 +41,11 @@ void UI::addCar() {
 	if (strcmp(status, "liber") == 0 or strcmp(status, "ocupat") == 0)
 	{
 		int rez = service.addToRepo(name, licensePlate, status);
-		if (rez == 0)
+		if (rez == -1)
 			cout << "The car can't be added!" << endl;
-		else
+		else if (rez == -2)
+			cout << "The car can't be added as 'ocupat' because the parking is full!" << endl;
+		else if (rez==0)
 			cout << "The car was added succesfully!" << endl;
 	}
 	else
@@ -73,8 +77,10 @@ void UI::deleteCar() {
 		int rez = service.delFromRepo(name, licensePlate, status);
 		if (rez == -1)
 			cout << "The car does not exist!" << endl;
-		else if (rez==0)
+		else if (rez == 0)
 			cout << "The car was deleted succesfully!" << endl;
+		else if (rez == -2)
+			cout << "The car is still in the parking lot!" << endl;
 	}
 	else
 		cout << "Status must be 'liber' or 'ocupat'" << endl;
@@ -92,7 +98,7 @@ void UI::updateCar() {
 	char* status = new char[20];
 	cin >> status;
 	Car c(name, licensePlate, status);
-	if (service.findCar(c))
+	if (service.findElemInRepo(c))
 	{
 		cout << "\t New datas:" << endl;
 		cout << "Name: ";
@@ -116,7 +122,7 @@ void UI::updateCar() {
 void UI::enterParking() {
 	Car c;
 	cin >> c;
-	if (service.findCar(c) == true) {
+	if (service.findElemInRepo(c) == true) {
 		int rez = service.enterParking(c);
 		if (rez == -1)
 			cout << "The car is already in the parking!" << endl;
@@ -125,6 +131,22 @@ void UI::enterParking() {
 		else if (rez == 0)
 			cout << "The car has entered the parking!" << endl;
 	}
+	else
+		cout << "The car does not exist!" << endl;
+}
+
+void UI::exitParking() {
+	Car c;
+	cin >> c;
+	if (service.findElemInRepo(c) == true) {
+		int rez = service.exitParking(c);
+		if (rez == -1)
+			cout << "The car is not in the parking!" << endl;
+		else if (rez==0)
+			cout << "The exit was successful!" << endl;
+	}
+	else
+		cout<<"The car does not exist!" << endl;
 }
 
 void UI::run() {
@@ -158,6 +180,14 @@ void UI::run() {
 		}
 		case 5: {
 			enterParking();
+			break;
+		}
+		case 6: {
+			exitParking();
+			break;
+		}
+		case 7: {
+			cout << "Answer: " << service.number << endl;
 			break;
 		}
 		case 0: {

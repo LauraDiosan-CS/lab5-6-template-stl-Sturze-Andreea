@@ -10,6 +10,7 @@ private:
 	void deleteCar();
 	void updateCar();
 	void enterParking();
+	void exitParking();
 public:
 	UI();
 	UI(const Service &);

@@ -100,7 +100,8 @@ bool Car::operator==(const Car& c) {
 }
 
 ostream& operator<<(ostream& os, Car c) {
-	os << c.getName() << " " << c.getLicensePlate()<<" "<<c.getStatus() << endl;
+	if(c.getName())
+		os << c.getName() << " " << c.getLicensePlate()<<" "<<c.getStatus() << endl;
 	return os;
 }
 

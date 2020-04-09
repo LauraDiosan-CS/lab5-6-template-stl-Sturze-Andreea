@@ -1,2 +1,5 @@
 Ion B44CCC liber
 Ana CJ65AAA ocupat
+cc cc ocupat
+bb bb ocupat
+dd dd liber

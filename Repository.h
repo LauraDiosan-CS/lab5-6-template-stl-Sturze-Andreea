@@ -6,14 +6,13 @@ using namespace std;
 
 class Repository {
 protected:
-	list<Car> cars;
+	list<Car> elem;
 public:
 	Repository();
-	int addElem(Car);
-	int delElem(Car);
-	void updateElem(Car, const char*, const char*, const char*);
-	int findElem(Car);
-	bool findCar(Car);
+	virtual int addElem(Car);
+	virtual int delElem(const Car&);
+	virtual void updateElem(const Car&, const Car);
+	bool findElem(const Car&);
 	Car getItemFromPos(int);
 	list<Car> getAll();
 	int getSize();

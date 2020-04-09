@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Repository.h"
 #include "RepoFile.h"
+#include "RepoTemplate.h"
 #include "Car.h"
 #include "Tests.h"
 #include "Service.h"
@@ -57,21 +58,22 @@ void testRepo(){
 	}
 	repo.delElem(c2);
 	assert(repo.getSize() == 3);
-	assert(repo.findElem(c2) == -1);
-	repo.updateElem(c1, "dana", "CJ11LLL", "liber");
-	assert(repo.findCar(c1) == false);
+	assert(repo.findElem(c2) == false);
 	Car c4("dana", "CJ11LLL", "liber");
+	repo.updateElem(c1, c4);
+	assert(repo.findElem(c1) == false);
 	assert(repo.getItemFromPos(1) == c4);
 }
 
 void testService() {
 	Car c("ion", "CJ23AAA", "liber");
-	Car c1("ana", "CJ44BBB", "ocupat");
+	Car c1("ana", "CJ44BBB", "liber");
 	Car c2("maria", "CJ42BCB", "liber");
 	Car c3("ioana", "B47HHH", "ocupat");
 	Service serv;
+	serv.setParkingNr(10);
 	serv.addToRepo("ion", "CJ23AAA", "liber");
-	serv.addToRepo("ana", "CJ44BBB", "ocupat");
+	serv.addToRepo("ana", "CJ44BBB", "liber");
 	serv.addToRepo("maria", "CJ42BCB", "liber");
 	serv.addToRepo("ioana", "B47HHH", "ocupat");
 	assert(serv.getItemFromPos(0) == c);
@@ -79,13 +81,14 @@ void testService() {
 	assert(serv.getItemFromPos(2) == c2);
 	assert(serv.getItemFromPos(3) == c3);
 	assert(serv.getRepoSize() == 4);
-	assert(serv.findElemInRepo(c) == 0);
-	serv.delFromRepo("ana", "CJ44BBB", "ocupat");
+	assert(serv.findElemInRepo(c) == true);
+	serv.delFromRepo("ana", "CJ44BBB", "liber");
 	assert(serv.getRepoSize() == 3);
-	serv.updateInRepo("ion", "CJ23AAA", "liber", "ana", "CJ44BBB", "ocupat");
-	assert(serv.findCar(c) == false);
+	assert(serv.findElemInRepo(c1) == false);
+	serv.updateInRepo("ion", "CJ23AAA", "liber", "ana", "CJ44BBB", "liber");
+	assert(serv.findElemInRepo(c) == false);
 	assert(serv.getItemFromPos(0) == c1);
-	assert(serv.findElemInRepo(c1) == 0);
+	assert(serv.findElemInRepo(c1) == true);
 }
 
 void testRepoFile() {
@@ -111,14 +114,66 @@ void testRepoFile() {
 	}
 	repo.delElem(c2);
 	assert(repo.getSize() == 5);
-	assert(repo.findElem(c2) == -1);
-	repo.updateElem(c1, "dana", "CJ11LLL", "liber");
-	assert(repo.findCar(c1) == false);
+	assert(repo.findElem(c2) == false);
 	Car c6("dana", "CJ11LLL", "liber");
+	repo.updateElem(c1, c6);
+	assert(repo.findElem(c1) == false);
 	assert(repo.getItemFromPos(3) == c6);
 	repo.addElem(c1);
 	repo.saveToFile();
 	repo.loadFromFile("test.txt");
 	assert(repo.getSize() == 6);
 	assert(repo.getItemFromPos(5) == c1);
+}
+
+void testServiceParking() {
+	Car c("ion", "CJ23AAA", "liber");
+	Car c1("ana", "CJ44BBB", "ocupat");
+	Car c2("maria", "CJ42BCB", "liber");
+	Car c3("ioana", "B47HHH", "ocupat");
+	Service serv;
+	serv.setParkingNr(3);
+	serv.addToRepo("ion", "CJ23AAA", "liber");
+	serv.addToRepo("ana", "CJ44BBB", "ocupat");
+	serv.addToRepo("maria", "CJ42BCB", "liber");
+	serv.addToRepo("ioana", "B47HHH", "ocupat");
+	assert(serv.getRepoSize() == 4);
+	assert(serv.enterParking(c2) == 0);
+	assert(strcmp(serv.getItemFromPos(2).getStatus(), "ocupat") == 0);
+	assert(serv.enterParking(c) == -2);
+	assert(serv.number == 1);
+	assert(serv.enterParking(serv.getItemFromPos(2)) == -1);
+	assert(serv.exitParking(c) == -1); 
+	assert(serv.exitParking(serv.getItemFromPos(2)) == 0);
+	assert(strcmp(serv.getItemFromPos(2).getStatus(), "liber") == 0);
+}
+
+void testRepoTemplate() {
+	RepoTemplate<Car> repo;
+	Car c("ion", "CJ23AAA", "liber");
+	Car c1("ana", "CJ44BBB", "ocupat");
+	Car c2("maria", "CJ42BCB", "liber");
+	Car c3("ioana", "B47HHH", "ocupat");
+	Car cars[] = { c,c1,c2,c3 };
+	repo.addElem(c);
+	repo.addElem(c1);
+	repo.addElem(c2);
+	repo.addElem(c3);
+	list<Car> l = repo.getAll();
+	assert(repo.getSize() == 4);
+	assert(l.front() == c);
+	assert(l.back() == c3);
+	int i = 0;
+	for (list<Car>::iterator it = l.begin(); it != l.end(); it++)
+	{
+		assert(*it == cars[i]);
+		i++;
+	}
+	repo.delElem(c2);
+	assert(repo.getSize() == 3);
+	assert(repo.findElem(c2) == false);
+	Car c4("dana", "CJ11LLL", "liber");
+	repo.updateElem(c1, c4);
+	assert(repo.findElem(c1) == false);
+	assert(repo.getItemFromPos(1) == c4);
 }
