@@ -1,6 +1,5 @@
 #pragma once
 #include "Car.h"
-#include "Repository.h"
 #include "RepoFile.h"
 
 class Service {
@@ -10,13 +9,11 @@ private:
 public:
 	int number;
 	Service();
-	//Service(const Repository&);
 	Service(const RepoFile&);
-	//Service(const RepoTemplate<Car>&);
 	~Service();
-	int addToRepo(const char*, const char*, const char*);
-	int delFromRepo(const char*, const char*, const char*);
-	void updateInRepo(const char*, const char*, const char*, const char*, const char*, const char*);
+	int addToRepo(Car);
+	int delFromRepo(Car);
+	int updateInRepo(const Car&, Car);
 	bool findElemInRepo(const Car&);
 	Car getItemFromPos(int);
 	list<Car> getFromRepo();

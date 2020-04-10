@@ -2,7 +2,6 @@
 #include "Car.h"
 #include <string.h>
 #include <iostream>
-#include <sstream>
 using namespace std;
 
 
@@ -96,7 +95,9 @@ Car& Car::operator=(const Car& c) {
 }
 
 bool Car::operator==(const Car& c) {
-	return (strcmp(name, c.name) == 0 and strcmp(licensePlate, c.licensePlate) == 0 and strcmp(status, c.status) == 0);
+	if (c.name and c.licensePlate and c.status)
+		return (strcmp(name, c.name) == 0 and strcmp(licensePlate, c.licensePlate) == 0 and strcmp(status, c.status) == 0);
+	return false;
 }
 
 ostream& operator<<(ostream& os, Car c) {

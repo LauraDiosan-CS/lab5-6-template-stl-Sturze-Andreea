@@ -29,18 +29,11 @@ void UI::printMenu() {
 }
 
 void UI::addCar() {
-	cout << "Name: ";
-	char* name = new char[20];
-	cin >> name;
-	cout << "License plate: ";
-	char* licensePlate = new char[20];
-	cin >> licensePlate;
-	cout << "Status: ";
-	char* status = new char[20];
-	cin >> status;
-	if (strcmp(status, "liber") == 0 or strcmp(status, "ocupat") == 0)
+	Car c;
+	cin >> c;
+	if (strcmp(c.getStatus(), "liber") == 0 or strcmp(c.getStatus(), "ocupat") == 0)
 	{
-		int rez = service.addToRepo(name, licensePlate, status);
+		int rez = service.addToRepo(c);
 		if (rez == -1)
 			cout << "The car can't be added!" << endl;
 		else if (rez == -2)
@@ -63,18 +56,11 @@ void UI::printCars() {
 }
 
 void UI::deleteCar() {
-	cout << "Name: ";
-	char* name = new char[20];
-	cin >> name;
-	cout << "License plate: ";
-	char* licensePlate = new char[20];
-	cin >> licensePlate;
-	cout << "Status: ";
-	char* status = new char[20];
-	cin >> status;
-	if (strcmp(status, "liber") == 0 or strcmp(status, "ocupat") == 0)
+	Car c;
+	cin >> c;
+	if (strcmp(c.getStatus(), "liber") == 0 or strcmp(c.getStatus(), "ocupat") == 0)
 	{
-		int rez = service.delFromRepo(name, licensePlate, status);
+		int rez = service.delFromRepo(c);
 		if (rez == -1)
 			cout << "The car does not exist!" << endl;
 		else if (rez == 0)
@@ -88,40 +74,35 @@ void UI::deleteCar() {
 
 void UI::updateCar() {
 	cout << "\t Car to update:" << endl;
-	cout << "Name: ";
-	char* name = new char[20];
-	cin >> name;
-	cout << "License plate: ";
-	char* licensePlate = new char[20];
-	cin >> licensePlate;
-	cout << "Status: ";
-	char* status = new char[20];
-	cin >> status;
-	Car c(name, licensePlate, status);
+	Car c;
+	cin >> c;
 	if (service.findElemInRepo(c))
 	{
 		cout << "\t New datas:" << endl;
-		cout << "Name: ";
-		char* newName = new char[20];
-		cin >> newName;
-		cout << "License plate: ";
-		char* newLicensePlate = new char[20];
-		cin >> newLicensePlate;
-		cout << "Status: ";
-		char* newStatus = new char[20];
-		cin >> newStatus;
-		if (strcmp(newStatus, "liber") == 0 or strcmp(newStatus, "ocupat") == 0)
-			service.updateInRepo(name, licensePlate, status, newName, newLicensePlate, newStatus);
+		Car newC;
+		cin >> newC;
+		if (strcmp(newC.getStatus(), "liber") == 0 or strcmp(newC.getStatus(), "ocupat") == 0)
+		{
+			int rez = service.updateInRepo(c, newC);
+			if (rez == -2)
+				cout << "The car can't be updated as 'ocupat' because the parking is full!" << endl;
+		}
 		else
 			cout << "Status must be 'liber' or 'ocupat'" << endl;
 	}
 	else
-		cout << "The car does not exist" << endl;
+		cout << "The car does not exist!" << endl;
 }
 
 void UI::enterParking() {
+	char* l = new char[20];
+	cout << "License plate: ";
+	cin >> l;
 	Car c;
-	cin >> c;
+	for (int i = 0; i < service.getRepoSize(); i++)
+		if (strcmp(service.getItemFromPos(i).getLicensePlate(), l) == 0)
+			c = service.getItemFromPos(i);
+	delete l;
 	if (service.findElemInRepo(c) == true) {
 		int rez = service.enterParking(c);
 		if (rez == -1)
@@ -136,8 +117,14 @@ void UI::enterParking() {
 }
 
 void UI::exitParking() {
+	char* l = new char[20];
+	cout << "License plate: ";
+	cin >> l;
 	Car c;
-	cin >> c;
+	for (int i = 0; i < service.getRepoSize(); i++)
+		if (strcmp(service.getItemFromPos(i).getLicensePlate(), l) == 0)
+			c = service.getItemFromPos(i);
+	delete l;
 	if (service.findElemInRepo(c) == true) {
 		int rez = service.exitParking(c);
 		if (rez == -1)

@@ -71,9 +71,9 @@ int RepoFile::addElem(Car c){
 	{
 		elem.push_back(c);
 		saveToFile();
-		return 1;
+		return 0;
 	}
-	return 0;
+	return -1;
 }
 
 int RepoFile::delElem(Car c) {

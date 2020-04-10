@@ -1,19 +1,10 @@
 #include "stdafx.h"
 #include "Service.h"
-#include <algorithm>
 using namespace std;
 
 Service::Service() {
 	number = 10;
 }
-
-/*Service::Service(const RepoTemplate<Car>& repository) {
-	this->repo = repository;
-}*/
-
-/*Service::Service(const Repository& repository) {
-	this->repo = repository;
-}*/
 
 Service::Service(const RepoFile& repository) {
 	this->repo = repository;
@@ -27,23 +18,23 @@ void Service::setParkingNr(int nr) {
 	parking = nr;
 }
 
-int Service::addToRepo(const char* name, const char* licensePlate, const char* status) {
-	if (strcmp(status, "ocupat") == 0) {
+int Service::addToRepo(Car c) {
+	if (strcmp(c.getStatus(), "ocupat") == 0) {
 		int k = 0;
 		for (int i = 0; i < repo.getSize(); i++)
 			if (strcmp(getItemFromPos(i).getStatus(), "ocupat") == 0)
 				k++;
-		if (k >= parking)
+		if (k >= parking) {
+			number++;
 			return -2;
+		}
 	}
-	Car c(name, licensePlate, status);
 	int rez = this->repo.addElem(c);
 	return rez;
 }
 
-int Service::delFromRepo(const char* name, const char* licensePlate, const char* status) {
-	if (strcmp(status, "liber") == 0) {
-		Car c(name, licensePlate, status);
+int Service::delFromRepo(Car c) {
+	if (strcmp(c.getStatus(), "liber") == 0) {
 		return this->repo.delElem(c);
 	}
 	else
@@ -51,10 +42,19 @@ int Service::delFromRepo(const char* name, const char* licensePlate, const char*
 	
 }
 
-void Service::updateInRepo(const char* name, const char* licensePlate, const char* status, const char* newName, const char* newLicensePlate, const char* newStatus) {
-	Car c(name, licensePlate, status);
-	Car newC(newName, newLicensePlate, newStatus);
+int Service::updateInRepo(const Car& c, Car newC) {
+	if (strcmp(newC.getStatus(), "ocupat") == 0) {
+		int k = 0;
+		for (int i = 0; i < repo.getSize(); i++)
+			if (strcmp(getItemFromPos(i).getStatus(), "ocupat") == 0)
+				k++;
+		if (k >= parking) {
+			number++;
+			return -2;
+		}
+	}
 	this->repo.updateElem(c, newC);
+	return 0;
 }
 
 list<Car> Service::getFromRepo() {
@@ -89,13 +89,11 @@ int Service::enterParking(Car c) {
 				number++;
 				return -2;
 			}
-			else {
-				Car newC(c.getName(), c.getLicensePlate(), "ocupat");
-				repo.updateElem(c, newC);
-				number = 0;
-				return 0;
-			}
 		}
+	Car newC(c.getName(), c.getLicensePlate(), "ocupat");
+	repo.updateElem(c, newC);
+	number = 0;
+	return 0;
 }
 
 int Service::exitParking(Car c) {

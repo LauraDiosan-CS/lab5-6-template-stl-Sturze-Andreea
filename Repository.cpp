@@ -72,4 +72,5 @@ Car Repository::getItemFromPos(int i) {
 		k++;
 
 	}
+	return Car("", "", "");
 }

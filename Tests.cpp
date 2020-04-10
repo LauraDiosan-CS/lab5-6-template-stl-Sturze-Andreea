@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <string.h>
 #include <iostream>
-#include<list>
+#include <list>
 using namespace std;
 
 void testCar() {
@@ -72,20 +72,20 @@ void testService() {
 	Car c3("ioana", "B47HHH", "ocupat");
 	Service serv;
 	serv.setParkingNr(10);
-	serv.addToRepo("ion", "CJ23AAA", "liber");
-	serv.addToRepo("ana", "CJ44BBB", "liber");
-	serv.addToRepo("maria", "CJ42BCB", "liber");
-	serv.addToRepo("ioana", "B47HHH", "ocupat");
+	serv.addToRepo(c);
+	serv.addToRepo(c1);
+	serv.addToRepo(c2);
+	serv.addToRepo(c3);
 	assert(serv.getItemFromPos(0) == c);
 	assert(serv.getItemFromPos(1) == c1);
 	assert(serv.getItemFromPos(2) == c2);
 	assert(serv.getItemFromPos(3) == c3);
 	assert(serv.getRepoSize() == 4);
 	assert(serv.findElemInRepo(c) == true);
-	serv.delFromRepo("ana", "CJ44BBB", "liber");
+	serv.delFromRepo(c1);
 	assert(serv.getRepoSize() == 3);
 	assert(serv.findElemInRepo(c1) == false);
-	serv.updateInRepo("ion", "CJ23AAA", "liber", "ana", "CJ44BBB", "liber");
+	serv.updateInRepo(c, c1);
 	assert(serv.findElemInRepo(c) == false);
 	assert(serv.getItemFromPos(0) == c1);
 	assert(serv.findElemInRepo(c1) == true);
@@ -133,10 +133,10 @@ void testServiceParking() {
 	Car c3("ioana", "B47HHH", "ocupat");
 	Service serv;
 	serv.setParkingNr(3);
-	serv.addToRepo("ion", "CJ23AAA", "liber");
-	serv.addToRepo("ana", "CJ44BBB", "ocupat");
-	serv.addToRepo("maria", "CJ42BCB", "liber");
-	serv.addToRepo("ioana", "B47HHH", "ocupat");
+	serv.addToRepo(c);
+	serv.addToRepo(c1);
+	serv.addToRepo(c2);
+	serv.addToRepo(c3);
 	assert(serv.getRepoSize() == 4);
 	assert(serv.enterParking(c2) == 0);
 	assert(strcmp(serv.getItemFromPos(2).getStatus(), "ocupat") == 0);

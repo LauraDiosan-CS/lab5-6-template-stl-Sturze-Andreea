@@ -7,7 +7,7 @@ template <class T>class RepoTemplate{
 protected:
 	list<T> elem;
 public:
-	RepoTemplate<T>(){}
+	RepoTemplate<T>();
 	int addElem(const T&); 
 	int delElem(const T&);
 	bool findElem(const T&);
@@ -20,10 +20,11 @@ public:
 
 
 
+template <class T> RepoTemplate<T>::RepoTemplate()
+{
+}
 
-
-template<class T>
-int RepoTemplate<T>::addElem(const T &e)
+template<class T> int RepoTemplate<T>::addElem(const T &e)
 {
 	list<T>::iterator it;
 	it = find(elem.begin(), elem.end(), e);
@@ -35,8 +36,7 @@ int RepoTemplate<T>::addElem(const T &e)
 	return -1;
 }
 
-template<class T>
-int RepoTemplate<T>::delElem (const T & e)
+template<class T> int RepoTemplate<T>::delElem (const T & e)
 {
 	list<T>::iterator it;
 	it = find(elem.begin(), elem.end(), e);
@@ -48,8 +48,7 @@ int RepoTemplate<T>::delElem (const T & e)
 	return -1;
 }
 
-template<class T>
-bool RepoTemplate<T>::findElem(const T &e)
+template<class T> bool RepoTemplate<T>::findElem(const T &e)
 {
 	list<T>::iterator it;
 	it = find(elem.begin(), elem.end(), e);
@@ -58,29 +57,23 @@ bool RepoTemplate<T>::findElem(const T &e)
 	return false;
 }
 
-template<class T>
-int RepoTemplate<T>::getSize()
+template<class T> int RepoTemplate<T>::getSize()
 {
 	return elem.size();
-	return 0;
 }
 
-template<class T>
-void RepoTemplate<T>::updateElem(const T & vechi, const T nou)
+template<class T> void RepoTemplate<T>::updateElem(const T & old, const T newE)
 {
-	replace(elem.begin(), elem.end(), vechi, nou);	
+	replace(elem.begin(), elem.end(), old, newE);	
 
 }
 
-template<class T>
-list<T> RepoTemplate<T>::getAll()
+template<class T> list<T> RepoTemplate<T>::getAll()
 {
 	return elem;
-	return list<T>();
 }
 
-template<class T>
-T RepoTemplate<T>::getItemFromPos(int i) {
+template<class T> T RepoTemplate<T>::getItemFromPos(int i) {
 	list<T>::iterator it;
 	int k = 0;
 	for (it = elem.begin(); it != elem.end(); it++)
@@ -90,6 +83,7 @@ T RepoTemplate<T>::getItemFromPos(int i) {
 		k++;
 
 	}
+	return T();
 }
 
 template <class T> RepoTemplate<T>::~RepoTemplate()
