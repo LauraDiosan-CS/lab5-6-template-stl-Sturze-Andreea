@@ -2,16 +2,7 @@
 #include "Service.h"
 using namespace std;
 
-Service::Service() {
-	number = 10;
-}
-
-Service::Service(const RepoFile& repository) {
-	this->repo = repository;
-}
-
 Service::~Service() {
-
 }
 
 void Service::setParkingNr(int nr) {
@@ -29,13 +20,13 @@ int Service::addToRepo(Car c) {
 			return -2;
 		}
 	}
-	int rez = this->repo.addElem(c);
+	int rez = repo.addElem(c);
 	return rez;
 }
 
 int Service::delFromRepo(Car c) {
 	if (strcmp(c.getStatus(), "liber") == 0) {
-		return this->repo.delElem(c);
+		return repo.delElem(c);
 	}
 	else
 		return -2;
@@ -53,7 +44,7 @@ int Service::updateInRepo(const Car& c, Car newC) {
 			return -2;
 		}
 	}
-	this->repo.updateElem(c, newC);
+	repo.updateElem(c, newC);
 	return 0;
 }
 

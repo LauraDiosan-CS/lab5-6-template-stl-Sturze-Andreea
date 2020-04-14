@@ -1,15 +1,15 @@
 #pragma once
 #include "Car.h"
 #include "RepoFile.h"
+#include "RepoTemplate.h"
 
 class Service {
 private:
 	int parking;
-	RepoFile repo;
+	RepoTemplate<Car> &repo;
 public:
 	int number;
-	Service();
-	Service(const RepoFile&);
+	Service(RepoTemplate<Car>& r) :repo(r) { repo = r; number = 10; };
 	~Service();
 	int addToRepo(Car);
 	int delFromRepo(Car);

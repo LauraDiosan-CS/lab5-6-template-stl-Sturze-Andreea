@@ -70,7 +70,8 @@ void testService() {
 	Car c1("ana", "CJ44BBB", "liber");
 	Car c2("maria", "CJ42BCB", "liber");
 	Car c3("ioana", "B47HHH", "ocupat");
-	Service serv;
+	RepoFile<Car> repo;
+	Service serv(repo);
 	serv.setParkingNr(10);
 	serv.addToRepo(c);
 	serv.addToRepo(c1);
@@ -92,7 +93,7 @@ void testService() {
 }
 
 void testRepoFile() {
-	RepoFile repo("test.txt");
+	RepoFile<Car> repo("test.txt");
 	Car c("ion", "CJ23AAA", "liber");
 	Car c1("ana", "CJ44BBB", "ocupat");
 	Car c2("maria", "CJ42BCB", "liber");
@@ -131,7 +132,8 @@ void testServiceParking() {
 	Car c1("ana", "CJ44BBB", "ocupat");
 	Car c2("maria", "CJ42BCB", "liber");
 	Car c3("ioana", "B47HHH", "ocupat");
-	Service serv;
+	RepoFile<Car> repo;
+	Service serv(repo);
 	serv.setParkingNr(3);
 	serv.addToRepo(c);
 	serv.addToRepo(c1);

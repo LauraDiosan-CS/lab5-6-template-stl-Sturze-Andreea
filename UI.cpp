@@ -3,15 +3,8 @@
 #include <iostream>
 using namespace std;
 
-UI::UI() {
-
-}
 
 UI::~UI() {
-}
-
-UI::UI(const Service& serv) {
-	this->service = serv;
 }
 
 void UI::printMenu() {

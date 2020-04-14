@@ -12,8 +12,7 @@ private:
 	void enterParking();
 	void exitParking();
 public:
-	UI();
-	UI(const Service &);
+	UI(Service &serv) :service(serv) {};
 	void run();
 	~UI();
 };
