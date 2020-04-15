@@ -8,13 +8,14 @@ protected:
 	list<T> elem;
 public:
 	RepoTemplate<T>();
-	int addElem(const T&); 
-	int delElem(const T&);
-	bool findElem(const T&);
+	virtual int addElem(const T&); 
+	virtual int delElem(const T&);
+	virtual bool findElem(const T&);
 	int getSize();
 	void updateElem(const T & s, const T nou);
 	list<T> getAll();
 	T getItemFromPos(int);
+	void clear();
 	~RepoTemplate();
 };
 
@@ -90,3 +91,6 @@ template <class T> RepoTemplate<T>::~RepoTemplate()
 {
 }
 
+template <class T> void RepoTemplate<T>::clear() {
+	elem.clear();
+}

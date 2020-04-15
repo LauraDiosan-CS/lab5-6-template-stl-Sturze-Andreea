@@ -70,7 +70,7 @@ void testService() {
 	Car c1("ana", "CJ44BBB", "liber");
 	Car c2("maria", "CJ42BCB", "liber");
 	Car c3("ioana", "B47HHH", "ocupat");
-	RepoFile<Car> repo;
+	RepoTemplate<Car> repo;
 	Service serv(repo);
 	serv.setParkingNr(10);
 	serv.addToRepo(c);

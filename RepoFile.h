@@ -2,11 +2,10 @@
 #include <list>
 #include <fstream>
 #include <iostream>
-#include "Car.h"
 #include "RepoTemplate.h"
 using namespace std;
 
-template<class T> class RepoFile :public RepoTemplate<Car>
+template<class T> class RepoFile :public RepoTemplate<T>
 {
 private:
 	const char* fileName;
@@ -22,7 +21,7 @@ public:
 };
 
 
-template<class T> RepoFile<T>::RepoFile() :RepoTemplate() {
+template<class T> RepoFile<T>::RepoFile() :RepoTemplate<T>() {
 	fileName = "";
 }
 
@@ -35,7 +34,7 @@ template<class T> RepoFile<T>::~RepoFile() {
 
 
 template<class T> void RepoFile<T>::loadFromFile(const char* file) {
-	elem.clear();
+	RepoTemplate<T>::clear();
 	fileName = file;
 	ifstream f(file);
 	char* name = new char[20];
@@ -45,7 +44,7 @@ template<class T> void RepoFile<T>::loadFromFile(const char* file) {
 		f >> name >> licensePlate >> status;
 		if (name != "") {
 			T c(name, licensePlate, status);
-			elem.push_back(c);
+			RepoTemplate<T>::addElem(c);
 		}
 	}
 	delete[] name;
@@ -56,11 +55,11 @@ template<class T> void RepoFile<T>::loadFromFile(const char* file) {
 
 template<class T> void RepoFile<T>::saveToFile() {
 	ofstream f(this->fileName);
-	for (int i = 0; i < elem.size(); i++)
-		if (i == elem.size() - 1)
-			f << getItemFromPos(i).getName() << " " << getItemFromPos(i).getLicensePlate() << " " << getItemFromPos(i).getStatus();
+	for (int i = 0; i < RepoTemplate<T>::getSize(); i++)
+		if (i == RepoTemplate<T>::getSize() - 1)
+			f << RepoTemplate<T>::getItemFromPos(i).getName() << " " << RepoTemplate<T>::getItemFromPos(i).getLicensePlate() << " " << RepoTemplate<T>::getItemFromPos(i).getStatus();
 		else
-			f << getItemFromPos(i);
+			f << RepoTemplate<T>::getItemFromPos(i);
 	f.close();
 }
 
